@@ -1,3 +1,3 @@
-= Paperclip-Riak
+# Paperclip-Riak
 
 Work in progress
