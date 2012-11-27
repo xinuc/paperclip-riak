@@ -6,15 +6,19 @@ module Paperclip
     module Riak
 
       def self.extended(base)
-        attr_accessor :riak_hosts, :riak_bucket
+        attr_accessor :riak_hosts, :riak_bucket, :riak_endpoint
 
         base.instance_eval do
           self.setup_options
         end
       end
 
+      def url(style=default_style, options={})
+        "#{@riak_endpoint}/#{@riak_bucket}/#{path(style)}"
+      end
+
       def riak
-        @riak ||= Riak::Client.new(@client_options)
+        @riak ||= ::Riak::Client.new(@client_options)
       end
 
       def bucket
@@ -25,19 +29,21 @@ module Paperclip
         @client_options = {
           :nodes => @options[:riak_hosts]
         }
+        @riak_bucket = @options[:riak_bucket]
+        @riak_endpoint = @options[:riak_endpoint]
       end
 
-      def exists?(style_name = default_style)
+      def exists?(style = default_style)
         if original_filename
-          @bucket.exists?(path(style_name))
+          @bucket.exists?(path(style))
         else
           false
         end
       end
 
       def flush_writes
-        @queued_for_write.each do |style_name, file|
-          object = Riak::RObject.new(bucket, path(style))
+        @queued_for_write.each do |style, file|
+          object = ::Riak::RObject.new(bucket, path(style))
           object.raw_data = File.read(file.path)
           object.content_type = file.content_type.to_s.strip
           object.store
