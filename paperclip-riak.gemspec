@@ -10,6 +10,8 @@ Gem::Specification.new do |s|
   s.summary     = %q{Use riak as paperclip file storage}
   s.description = %q{Paperclip storage module that allow us to store uploaded files to Riak}
 
+  s.license     = 'MIT'
+
   s.rubyforge_project = "paperclip-riak"
 
   s.files         = `git ls-files`.split("\n")
