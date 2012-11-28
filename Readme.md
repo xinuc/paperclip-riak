@@ -6,17 +6,21 @@ There are many use cases where storing file in riak is acceptable, especially wh
 ## Usage
 
   ```rb
-    # Gemfile
-    gem papeclip-riak
+  # Gemfile
+  gem papeclip-riak
   ```
 
   ```rb
-    class Image < ActiveRecord::Base
-      has_attached_file :data,
-        :riak_bucket => 'images',
-        :riak_endpoint => 'http://127.0.0.1:8098/riak',
-        :path => ":id_:style_:filename"
-    end
+  class Image < ActiveRecord::Base
+    has_attached_file :data,
+      :storage => :riak,
+      :riak_hosts => [
+        {:host => '127.0.0.1:8098'}
+      ],
+      :riak_bucket => 'images',
+      :riak_endpoint => 'http://127.0.0.1:8098/riak',
+      :path => ":id_:style_:filename"
+  end
   ```
 
 ## License
