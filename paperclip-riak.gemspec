@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Nugroho Herucahyono"]
   s.email       = ["xinuc@xinuc.org"]
   s.homepage    = "https://github.com/xinuc/paperclip-riak"
-  s.summary     = %q{Use riak as paperclip storage}
-  s.description = %q{Use riak as paperclip storage}
+  s.summary     = %q{Use riak as paperclip file storage}
+  s.description = %q{Paperclip storage module that allow us to store uploaded files to Riak}
 
   s.rubyforge_project = "paperclip-riak"
 
