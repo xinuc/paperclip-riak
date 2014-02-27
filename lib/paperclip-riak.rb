@@ -35,7 +35,7 @@ module Paperclip
 
       def exists?(style = default_style)
         if original_filename
-          @bucket.exists?(path(style))
+          bucket.exists?(path(style))
         else
           false
         end
