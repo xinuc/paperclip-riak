@@ -6,7 +6,7 @@ module Paperclip
     module Riak
 
       def self.extended(base)
-        attr_accessor :riak_hosts, :riak_bucket, :riak_endpoint
+        attr_accessor :riak_hosts, :riak_bucket, :riak_endpoint, :riak_client
 
         base.instance_eval do
           self.setup_options
@@ -18,7 +18,7 @@ module Paperclip
       end
 
       def riak
-        @riak ||= ::Riak::Client.new(@client_options)
+        @riak ||= @riak_client || ::Riak::Client.new(@client_options)
       end
 
       def bucket
@@ -31,6 +31,7 @@ module Paperclip
         }
         @riak_bucket = @options[:riak_bucket]
         @riak_endpoint = @options[:riak_endpoint]
+        @riak_client = @options[:riak_client]
       end
 
       def exists?(style = default_style)
