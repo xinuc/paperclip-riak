@@ -14,7 +14,11 @@ module Paperclip
       end
 
       def url(style=default_style, options={})
-        "#{@riak_endpoint}/#{@riak_bucket}/#{path(style)}"
+        if @riak_endpoint
+          "#{@riak_endpoint}/#{@riak_bucket}/#{path(style)}"
+        else
+          @url_generator.for(style, options)
+        end
       end
 
       def riak
