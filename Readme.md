@@ -1,6 +1,6 @@
 # Paperclip-Riak
 
-paperclip-riak is a paperclip storage module that allow us to store uploaded files to [Riak](http://basho.com/products/riak-overview).
+paperclip-riak is a paperclip storage module that allow us to store uploaded files to [Riak](http://basho.com/riak/).
 There are many use cases where storing file in riak is acceptable, especially when we only need to store small files (e.g image thumbnails).
 
 ## Usage
