@@ -6,7 +6,7 @@ module Paperclip
     module Riak
 
       def self.extended(base)
-        attr_accessor :riak_hosts, :riak_bucket, :riak_endpoint
+        attr_accessor :riak_hosts, :riak_bucket, :riak_endpoint, :riak_client
 
         base.instance_eval do
           self.setup_options
@@ -14,11 +14,15 @@ module Paperclip
       end
 
       def url(style=default_style, options={})
-        "#{@riak_endpoint}/#{@riak_bucket}/#{path(style)}"
+        if @riak_endpoint
+          "#{@riak_endpoint}/#{@riak_bucket}/#{path(style)}"
+        else
+          @url_generator.for(style, options)
+        end
       end
 
       def riak
-        @riak ||= ::Riak::Client.new(@client_options)
+        @riak ||= @riak_client || ::Riak::Client.new(@client_options)
       end
 
       def bucket
@@ -31,11 +35,12 @@ module Paperclip
         }
         @riak_bucket = @options[:riak_bucket]
         @riak_endpoint = @options[:riak_endpoint]
+        @riak_client = @options[:riak_client]
       end
 
       def exists?(style = default_style)
         if original_filename
-          @bucket.exists?(path(style))
+          bucket.exists?(path(style))
         else
           false
         end
